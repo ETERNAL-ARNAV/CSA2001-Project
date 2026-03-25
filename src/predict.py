@@ -12,21 +12,33 @@ stop_words = stopwords.words('english')
 ps = PorterStemmer()
 
 def clean_my_text(text):
-    # Lowercase
+    # 1. Lowercase
     text = text.lower()
-    # Remove Punctuation
-    clean_chars = ""
+
+    # 2. Remove Punctuation
+    text_no_punct = ""
     for char in text:
         if char not in string.punctuation:
-            clean_chars += char
-    # Split, Remove Stopwords, and Stem
-    words = clean_chars.split()
-    useful_words = [ps.stem(w) for w in words if w not in stop_words]
+            text_no_punct += char
+    
+    # 3. Split into words
+    words = text_no_punct.split()
+
+    # 4. Remove Stopwords and Stem
+    useful_words = []
+    for w in words:
+        if w not in stop_words:
+            root_word = ps.stem(w)
+            useful_words.append(root_word)
+
+    # 5. Join back together
     return " ".join(useful_words)
 
 # 3. The "Testing" Loop
 print("--- Spam Detector is Online ---")
+feedBack = input("Are you willing us to tell wether the AI model was right or not?Enter(y-yes/n-no) : ")
 while True:
+    label = ""
     user_input = input("\nEnter a message to check (or type 'quit'): ")
     
     if user_input.lower() == 'quit':
@@ -38,7 +50,32 @@ while True:
     # Step B: Turn it into numbers (Vectorize)
     numeric_input = cv.transform([cleaned])
     
-    # Step C: Ask the AI for a prediction
-    prediction = model.predict(numeric_input)
-    
-    print(f"RESULT: This message is {prediction[0].upper()}")
+    # 1. Get the raw probabilities
+    prob = model.predict_proba(numeric_input)[0]
+
+    # 2. Get the final verdict (Spam/Ham)
+    prediction = model.predict(numeric_input)[0]
+
+    # Grab the scores
+    ham_score = prob[0] * 100
+    spam_score = prob[1] * 100
+
+    # The Logic
+    if spam_score > 50:
+        print(f"Verdict: SPAM ({spam_score:.1f}%)")
+        label = "spam"
+    else:
+        print(f"Verdict: HAM ({ham_score:.1f}%)")
+        label = "ham"
+    if feedBack == "y":
+        correctness = input("Was the AI correct?Enter(y-yes,n-no) : ")
+        if(correctness == "n"):
+            if(label == "spam"):
+                label = "ham"
+            else:
+                label = "spam"
+        with open('data/spam.csv', 'a', encoding='latin-1') as f:
+            f.write(f'\n{label},"{user_input}"')
+if(feedBack == "y"):
+    def returnTOMain():
+        return True
