@@ -2,6 +2,9 @@ import joblib
 import string
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+from art import *
+
+print(text2art("\n\n***READY FOR PREDICTION***",font="small"))
 
 # 1. Loading the "Saved Brain" and the "Translator"
 model = joblib.load('models/spam_model.pkl')
@@ -35,7 +38,6 @@ def clean_my_text(text):
     return " ".join(useful_words)
 
 # 3. The "Testing" Loop
-print("--- Spam Detector is Online ---")
 feedBack = input("Are you willing us to tell wether the AI model was right or not?Enter(y-yes/n-no) : ")
 while True:
     label = ""

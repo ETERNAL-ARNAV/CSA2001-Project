@@ -3,7 +3,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import joblib
+from art import *
 
+print(text2art("\n\n***Training The Model***",font="small"))
 # 1. Loading the CLEANED data
 data = pd.read_csv('data/cleaned_spam.csv')
 
