@@ -1,0 +1,6 @@
+Following dependencies are needed :-
+1.pandas
+2.scikit-learn
+3.nltk
+4.joblib
+5.art
