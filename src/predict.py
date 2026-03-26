@@ -3,8 +3,8 @@ import string
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from art import *
-
-print(text2art("\n\n***READY FOR PREDICTION***",font="small"))
+print(text2art("---\t\t\tSPAM   DETECTOR---",font="small"))
+print("\n***READY FOR PREDICTION***")
 
 # 1. Loading the "Saved Brain" and the "Translator"
 model = joblib.load('models/spam_model.pkl')
@@ -78,6 +78,8 @@ while True:
                 label = "spam"
         with open('data/spam.csv', 'a', encoding='latin-1') as f:
             f.write(f'\n{label},"{user_input}"')
-if(feedBack == "y"):
-    def returnTOMain():
+def returnTOMain():
+    if(feedBack == "y"):
         return True
+    else:
+        return False

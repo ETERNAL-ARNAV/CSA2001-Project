@@ -4,9 +4,8 @@ nltk.download('stopwords')
 import string
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-from art import *
 
-print(text2art("\n\n***Cleaning The Data***",font="small"))
+print("***Cleaning The Data***")
 # 1. Loading the file
 data = pd.read_csv('data/spam.csv', encoding='latin-1')
 data = data[['v1', 'v2']]
@@ -61,4 +60,4 @@ data['cleaned_text'] = cleaned_messages
 data.to_csv('data/cleaned_spam.csv', index=False)
 
 print("Finished! readable data generated for AI named cleaned_spam.csv\n\n")
-print(data[['text', 'cleaned_text']].head(),"\n\n\n")
+print(data[['text', 'cleaned_text']].head(),"\n")
